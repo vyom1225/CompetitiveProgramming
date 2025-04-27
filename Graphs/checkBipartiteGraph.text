@@ -1,0 +1,28 @@
+vector<int> vis(n+1,0);
+vector<int> side(n+1,0);
+
+bool flag = true;
+queue<int> q;
+
+for(int i = 1 ;i <= n;i++){
+    if(!vis[i]) q.push(i);
+
+    while(!q.empty()){
+        int top = q.front();
+        q.pop();
+
+        for(auto it : adj[top]){
+            if(vis[it]){
+                if(side[it]!= (1-side[top])){
+                    flag = false;
+                    break;
+                }
+            }else{
+                vis[it] = 1;
+                side[it] = 1 - side[top];
+                q.push(it);   
+            }
+        }
+    }
+    if(!flag) break;
+}
