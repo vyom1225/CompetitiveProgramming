@@ -1,0 +1,30 @@
+class FenwickTree {
+    vector<int> BIT;
+    int n;
+
+public:
+    FenwickTree(int size) {
+        n = size;
+        BIT.assign(n + 1, 0);
+    }
+
+    void update(int idx, int val) {
+        while (idx <= n) {
+            BIT[idx] += val;
+            idx += (idx & -idx);
+        }
+    }
+
+    int prefixSum(int idx) {
+        int sum = 0;
+        while (idx > 0) {
+            sum += BIT[idx];
+            idx -= (idx & -idx);
+        }
+        return sum;
+    }
+
+    int rangeSum(int l, int r) {
+        return prefixSum(r) - prefixSum(l - 1);
+    }
+};

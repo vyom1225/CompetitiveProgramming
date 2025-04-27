@@ -1,0 +1,39 @@
+vector<int> seg;
+vector<int> arr;
+
+void build(int v , int s , int e){
+    if(s == e) seg[v] = arr[s];
+    else{
+        int m = (s+e)/2;
+ 
+        build(2*v , s , m);
+        build(2*v + 1 , m+1 , e);
+ 
+        seg[v] = seg[2*v] + seg[2*v + 1];
+    }
+}
+ 
+void update(int v , int l , int r , int idx, int val){
+    if(l == r) seg[v] = val;
+    else{
+        int m = (l+r)/2;
+        if(idx <= m){
+            update(2*v , l , m , idx , val);
+        }else{
+            update(2*v + 1 , m+1 , r , idx , val );
+        }
+ 
+        seg[v] = seg[2*v] + seg[2*v + 1];
+    }
+}
+ 
+int query(int v , int s , int e , int l , int r){
+    if(l > r) return 0;
+    if(l == s && r == e) return seg[v];
+ 
+    int m = (s+e)/2;
+    int left = query(2*v , s , m , l , min(m,r));
+    int right = query(2*v + 1 , m+1 , e , max(l , m+1) , r);
+ 
+    return left + right;
+}

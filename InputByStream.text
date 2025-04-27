@@ -1,0 +1,10 @@
+string s;
+getline(cin,s);
+
+stringstream stream(s);
+vector<int> vc;
+int num;
+
+while(stream >> num){
+    vc.push_back(num);
+}
